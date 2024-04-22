@@ -1,3 +1,13 @@
+import sqlite3
+
+connection_obj=sqlite3.connect('mytest.db')
+curser_obj=connection_obj.cursor()
+curser_obj.execute("DROP TABLE IF EXISTS users")
+
+connection_obj.close()
+
+-----------------------
+
 from fastapi import FastAPI,status,Response,HTTPException
 from fastapi.params import Body
 from operator import index
