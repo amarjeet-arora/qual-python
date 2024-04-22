@@ -1,4 +1,4 @@
-from fastapi import FastAPI,status
+from fastapi import FastAPI,status,Response,HTTPException
 from fastapi.params import Body
 from pydantic import BaseModel
 from random import randrange
@@ -37,8 +37,21 @@ def findPost(id):
 
 # search specific record
 @app.get("/loadpost/{uid}")
-def loadByPostId(uid:int):
+def loadByPostId(uid:int,response:Response):
     post=findPost(uid)
-    print(post)
-    return {"data":post}
+    if not post:
+        response.status_code=status.HTTP_404_NOT_FOUND
+        print(post)
+        return {"Message":f"User not Found for :{uid}"}
+    else:
+        return {"data":post}
+
+# search specific record
+@app.get("/loadpost2/{uid}")
+def loadByPostId(uid:int,response:Response):
+    post=findPost(uid)
+    if not post:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail="Given ID not found")
+    else:
+        return {"data":post}
 
