@@ -34,6 +34,11 @@ def findPost(id):
         if p['id'] == id:
             return p
 
+def findPost2(id):
+    for i, p in enumerate(my_post):
+        if p['id'] == id:
+            return i
+
 
 # search specific record
 @app.get("/loadpost/{uid}")
@@ -54,4 +59,13 @@ def loadByPostId(uid:int,response:Response):
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail="Given ID not found")
     else:
         return {"data":post}
+
+@app.delete("/deletepost/{id}")
+def deletePost(id:int):
+    post=findPost2(id)
+    if not post:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail="Given ID not found")
+    else:
+        my_post.pop(post)
+        return {"Post deleted":post}
 
