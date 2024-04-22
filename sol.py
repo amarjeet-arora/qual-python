@@ -12,6 +12,6 @@ def root():
 def messageShow():
     return {"message":"welcome to FAST APP "}
 @app.post("/createposts")
-def create_posts(data: dict=Body(...)):
-    print(data)
-    return {"message":"User created"}
+def create_posts(payload: dict=Body(...)):
+    print(payload)
+    return {"New_User":f"title {payload['uname']} password : {payload['password']}"}
