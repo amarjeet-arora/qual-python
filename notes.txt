@@ -1,1 +1,34 @@
 
+Rest API
+
+Webservices
+
+
+flipkart
+myntra
+amazon
+zomato
+=====
+
+
+http://123.45.67.9:8080/loadusers   -> JSON
+
+GET
+POST
+PUT
+DELETE
+
+
+REST->
+Rest EASY
+Apache Jersey
+Spring Rest
+
+
+Python:
+FastAPI
+Flask
+django
+
+
+Lambda
