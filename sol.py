@@ -21,5 +21,7 @@ def messageShow():
 @app.post("/createposts")
 def create_posts(payload: Post):
     print(payload)
-    return {"data": "newpost"}
+    return {"data": payload}
+    #return(payload.model_dump())
+    #return {"data": "newpost"}
    # return {"New_User":f"title {payload['uname']} password : {payload['password']}"}
