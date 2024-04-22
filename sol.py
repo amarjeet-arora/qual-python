@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI,status
 from fastapi.params import Body
 from pydantic import BaseModel
 from random import randrange
@@ -12,7 +12,7 @@ class Post(BaseModel):
     title:str
     content:str
 
-@app.post("/adduser")
+@app.post("/adduser",status_code=status.HTTP_201_CREATED)
 def create_post(newPost:Post):
    
     post_dict=newPost.dict()
