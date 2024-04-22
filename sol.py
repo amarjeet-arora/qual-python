@@ -11,7 +11,7 @@ app= FastAPI()
 class Post(BaseModel):
     title:str
     content:str
-
+# add new record
 @app.post("/adduser",status_code=status.HTTP_201_CREATED)
 def create_post(newPost:Post):
    
@@ -22,8 +22,23 @@ def create_post(newPost:Post):
     print(newPost)
     print(newPost.model_dump())
     return {"data":post_dict}
-
+# load all the records
 @app.get("/loadall")
 def loadAll():
     return {"data": my_post}
+
+# helper function
+
+def findPost(id):
+    for p in my_post:
+        if p['id'] == id:
+            return p
+
+
+# search specific record
+@app.get("/loadpost/{uid}")
+def loadByPostId(uid:int):
+    post=findPost(uid)
+    print(post)
+    return {"data":post}
 
