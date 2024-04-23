@@ -1,10 +1,20 @@
-from sqlalchemy import Column,Integer,String
-from .database import Base
-#from sqlalchemy.sql.sqltypes impo
 
-class Student(Base):
-    __tablename__="STUDENT"
+from sqlalchemy import create_engine
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
 
-    name=Column(String,primary_key=True,nullable=False)
-    sclass=Column(String,nullable=False)
-    section=Column(String,nullable=False)
+SQLALCHEMY_DATABASE_URL="sqlite:///./mytest.db"
+
+engine=create_engine(
+    SQLALCHEMY_DATABASE_URL,connect_args={"check_same_thread":false}
+)
+
+SessionLocal= sessionmaker(autocommit=False,autoflush=False,bind=engine)
+
+Base= declarative_base()
+def get_db():
+    db=SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
