@@ -13,7 +13,7 @@ def hello():
 
 @app.route("/admin")
 def admin():
-    return redirect(url_for("home"))
+    return redirect(url_for("user",name="Amarjeet"))
   
 
 @app.route("/<name>")
