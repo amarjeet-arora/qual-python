@@ -1,41 +1,51 @@
-from fastapi import FastAPI,status,Response,HTTPException
-from fastapi.params import Body
 from operator import index
-from pydantic import BaseModel
 from random import randrange
+from fastapi import FastAPI, HTTPException, Response
+from fastapi.params import Body
+from pydantic import BaseModel
+from fastapi import status
 import sqlite3
 
-
-#initialize the base data
 my_post=[{"title":"demo app","content":"post-1","id":1}]
-# initialize the fast API
-app= FastAPI()
 
-# setup a connection
-connection_obj = sqlite3.connect('mytest.db',check_same_thread=False) 
-cursor_obj = connection_obj.cursor() 
-  
+app = FastAPI()
 
+connection_obj = sqlite3.connect('mytest.db', check_same_thread=False)
+cursor_obj = connection_obj.cursor()
+
+
+def findPost(id):
+    for p in my_post:
+        if p['id'] == id:
+            return p
+
+
+def findPost2(id):
+    for i, p in enumerate(my_post):
+        if p['id'] == id:
+            return i
+
+
+print("connected to DB")
 
 
 class Post(BaseModel):
-    name:str
-    sclass:str
-    section:str
+    name: str
+    sclass: str
+    section: str
 
-# add new record
-@app.post("/adduser",status_code=status.HTTP_201_CREATED)
-def create_post(newPost:Post):
-   
-    cursor_obj.execute(" " "INSERT INTO STUDENT(NAME,CLASS,SECTION) VALUES (?,?,?) RETURNING * " " " ,(
+
+@app.post("/adduser", status_code=status.HTTP_201_CREATED)
+def createPost(newPost: Post):
+
+   # print(newPost)
+    cursor_obj.execute(" " "INSERT INTO STUDENT(NAME,CLASS,SECTION) VALUES (?, ?, ?) RETURNING * " " ", (
         newPost.name, newPost.sclass, newPost.section
-
     ))
-    np=cursor_obj.fetchone() 
-    cursor_obj.commit()
-    return {"data":np}
 
-
+    np = cursor_obj.fetchone()
+    connection_obj.commit()
+    return {"data": np}
 
 
 
