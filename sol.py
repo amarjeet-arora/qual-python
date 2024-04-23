@@ -69,24 +69,24 @@ def findPost2(id):
 
 
 # search specific record
-@app.get("/loadpost/{uid}")
-def loadByPostId(uid:int,response:Response):
-    post=findPost(uid)
-    if not post:
-        response.status_code=status.HTTP_404_NOT_FOUND
-        print(post)
-        return {"Message":f"User not Found for :{uid}"}
-    else:
-        return {"data":post}
+@app.get("/loadpost/{name}")
+def loadByPostId(name: str):
+    cursor_obj.execute(
+        " " "select * from student where name=? " " ",(str(name),))
+    test_post= cursor_obj.fetchone()
+    print(test_post)
 
-# search specific record
-@app.get("/loadpost2/{uid}")
-def loadByPostId(uid:int,response:Response):
-    post=findPost(uid)
-    if not post:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail="Given ID not found")
+    if not test_post:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail="Given Name not found")
     else:
-        return {"data":post}
+        return {"data":test_post}
+
+
+
+
+
+
+
 
 @app.delete("/deletepost/{id}")
 def deletePost(id:int):
