@@ -3,6 +3,7 @@ from fastapi.params import Body
 from operator import index
 from pydantic import BaseModel
 from random import randrange
+import sqlite3
 
 
 #initialize the base data
@@ -10,20 +11,36 @@ my_post=[{"title":"demo app","content":"post-1","id":1}]
 # initialize the fast API
 app= FastAPI()
 
+# setup a connection
+connection_obj = sqlite3.connect('mytest.db',check_same_thread=False) 
+cursor_obj = connection_obj.cursor() 
+  
+
+
+
 class Post(BaseModel):
-    title:str
-    content:str
+    name:str
+    sclass:str
+    section:str
+
 # add new record
 @app.post("/adduser",status_code=status.HTTP_201_CREATED)
 def create_post(newPost:Post):
    
-    post_dict=newPost.dict()
-    print(post_dict)
-    post_dict['id']=randrange(0,10000000)
-    my_post.append(post_dict)
-    print(newPost)
-    print(newPost.model_dump())
-    return {"data":post_dict}
+    cursor_obj.execute(" " "INSERT INTO STUDENT(NAME,CLASS,SECTION) VALUES (?,?,?) RETURNING * " " " ,(
+        newPost.name, newPost.sclass, newPost.section
+
+    ))
+    np=cursor_obj.fetchone() 
+    cursor_obj.commit()
+    return {"data":np}
+
+
+
+
+
+
+
 # load all the records
 @app.get("/loadall")
 def loadAll():
