@@ -44,3 +44,29 @@ class Student(BaseModel):
     name: str
     sclass: str
     section: str
+
+
+
+
+
+
+
+from operator import index
+from random import randrange
+from fastapi import FastAPI, HTTPException, Response
+from fastapi.params import Body
+from sqlalchemy.orm import Session
+from pydantic import BaseModel
+from fastapi import status
+import sqlite3
+from . import models,schemas
+from .database import engine, get_db
+
+models.Base.metadata.create_all(bind=engine)
+ 
+app = FastAPI()
+
+@app.get("/testconn")
+def testdb(db: Session = Depends(get_db)):
+    return {"status":"success"}
+
