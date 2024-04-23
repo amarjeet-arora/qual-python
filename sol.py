@@ -3,17 +3,18 @@ from flask import Flask,redirect,url_for,render_template
 
 app = Flask(__name__)
 
+userdata=['admin','manager','qa']
+
 @app.route("/")
 def home():
     return render_template("index.html")
 
 @app.route("/<name>")
 def home2(name):
-    return render_template("index.html",mycity=name, myname="amarjeet")
+    return render_template("index.html",users=userdata)
 
 if __name__== "__main__":
     app.run()
-
 
 
 
@@ -34,5 +35,12 @@ if __name__== "__main__":
 
     <p>{{x}}</p>
     {% endif %} {% endfor %}
+
+    <hr>
+    <p> User Data</p>
+
+    {% for x in users %}
+     <p>{{x}}</p>
+     {% endfor %}
   </body>
 </html>
