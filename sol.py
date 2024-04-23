@@ -48,13 +48,12 @@ def createPost(newPost: Post):
     return {"data": np}
 
 
-
-
-
 # load all the records
 @app.get("/loadall")
 def loadAll():
-    return {"data": my_post}
+    cursor_obj.execute('''SELECT * FROM STUDENT''')
+    my_post2=cursor_obj.fetchall()
+    return {"data": my_post2}
 
 # helper function
 
