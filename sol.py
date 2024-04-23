@@ -83,19 +83,20 @@ def loadByPostId(name: str):
 
 
 
-
-
-
-
-
-@app.delete("/deletepost/{id}")
-def deletePost(id:int):
-    post=findPost2(id)
-    if not post:
+@app.delete("/deletepost/{name}")
+def deletePost(name:str):
+    cursor_obj.execute(
+        " " "delete from student where name=? " " ",(str(name),))
+    deleted_post= cursor_obj.fetchone()
+    connection_obj.commit()
+    if not deleted_post == None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail="Given ID not found")
     else:
-        my_post.pop(post)
-        return {"Post deleted":post}
+        return ("Post deleted")
+
+
+
+
 
 @app.put("/updatepost/{id}")
 def updatePost(id:int,post:Post):
