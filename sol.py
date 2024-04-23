@@ -21,6 +21,27 @@ def login():
 def register():
     return render_template("register.html")
 
+
+
+
+
+
+
+{% extends "base.html"%}
+
+{% block title %} Login Page {% endblock %}
+
+
+{% block content %} <h2>User Login</h2>
+<hr>
+
+<form method="post" action="#">
+    UserName: <input type="text" name="nm"/>
+    <button>Login</button>
+</form>
+
+{% endblock %}
+
 @app.route("/<usr>")
 def home2(usr):
     #return render_template("userdata.html")
